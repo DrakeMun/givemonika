@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lá thư 20/10 💌</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(180deg, #f3e5f5, #e1bee7); /* tím nhạt → tím dịu */
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+    }
+
+    .envelope {
+      position: relative;
+      width: 380px;
+      height: 250px;
+      background: #ba68c8; /* tím vừa */
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      cursor: pointer;
+      overflow: visible;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1000px;
+    }
+
+    .envelope::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ce93d8, #ab47bc); /* gradient tím */
+      clip-path: polygon(0 0, 100% 0, 50% 50%);
+      z-index: 3;
+      transform-origin: top;
+      transition: transform 1.2s ease;
+    }
+
+    .click-circle {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, #fff, #e1bee7); /* tím nhạt nền */
+      border: 3px solid #9c27b0; /* tím đậm viền */
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #6a1b9a; /* chữ tím đậm */
+      font-size: 1.2em;
+      text-shadow: 1px 1px 2 rgba(255,255,255,0.8);
+      box-shadow: 0 0 15px rgba(155, 89, 182,0.6);
+      z-index: 5;
+      animation: pulse 1.5s infinite;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .open .click-circle {
+      opacity: 0;
+      transform: scale(0);
+      pointer-events: none;
+    }
+
+    .letter {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 85%;
+      height: 85%;
+      background: #f3e5f5; /* nền letter tím nhạt */
+      border-radius: 10px;
+      box-shadow: 0 6px 14px rgba(155, 89, 182,0.6);
+      text-align: left;
+      box-sizing: border-box;
+      border: 1.5px solid #ce93d8;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+      transition: transform 1.4s ease, opacity 1.4s ease;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .open .letter {
+      opacity: 1;
+      transform: translate(-50%, -130%);
+      z-index: 10;
+      overflow-y: auto;
+    }
+
+    .open::before {
+      transform: rotateX(-180deg);
+      z-index: 1;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      height: 33%;
+      background: linear-gradient(180deg, #e1bee7, #ce93d8); /* tím gradient */
+      border-bottom: 2px solid #ab47bc;
+      border-radius: 8px 8px 20px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      box-shadow: 0 2px 10px rgba(155, 89, 182,0.4);
+      z-index: 10;
+    }
+
+    .header h2 {
+      color: #6a1b9a; /* chữ tím đậm */
+      font-size: 1.6em;
+      text-align: center;
+      margin: 0;
+      padding: 10px 0;
+    }
+
+    .line {
+      width: 60%;
+      height: 2px;
+      background: #ab47bc;
+      border-radius: 2px;
+    }
+
+    .text {
+      color: #4a148c; /* tím đậm hơn */
+      font-size: 1em;
+      line-height: 1.6;
+      white-space: pre-line;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+      padding: 20px;
+      padding-top: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .showText {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Nút Trang tiếp */
+    .next-btn {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #9c27b0; /* tím đậm */
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1.05em;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: 0.3s;
+      display: none;
+      z-index: 20;
+    }
+
+    .next-btn:hover {
+      background: #ab47bc;
+      transform: translateX(-50%) scale(1.1);
+    }
+
+    .letter::-webkit-scrollbar {
+      width: 6px;
+    }
+    .letter::-webkit-scrollbar-thumb {
+      background: #ce93d8;
+      border-radius: 10px;
+    }
+
+    .flower {
+      position: fixed;
+      top: -10px;
+      color: #ce93d8; /* hoa rơi tím nhạt */
+      animation: fall linear forwards;
+      z-index: 999;
+      font-size: 22px;
+      opacity: 0.8;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+
+</head>
+<body>
+  <div class="envelope" id="envelope" onclick="openLetter()">
+    <div class="click-circle">Click Me 💌</div>
+    <div class="letter" id="letter">
+      <div class="header">
+        <h2>💌 Lời chúc gửi đến bạn 💌</h2>
+        <div class="line"></div>
+      </div>
+      <div class="text" id="text"></div>
+    </div>
+  </div>
+
+  <!-- Nút Trang tiếp -->
+  <button class="next-btn" id="next" onclick="nextPage()">Trang tiếp ➜</button>
+
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_50f48e17ef.mp3?filename=romantic-piano-background-music-2049.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+    const messages = [
+  `🌸 Hôm nay gió nhẹ trời trong,
+Chúc bạn hạnh phúc, má hồng tươi xinh 🌷
+Công việc suôn sẻ hết mình,
+Cười tươi như nắng bình minh mỗi ngày ☀️
+
+💐 Bạn tôi xinh đẹp, đảm đang,
+Giỏi giang, duyên dáng – ngàn vàng chẳng mua 💎
+Bao năm gắn bó sớm trưa,
+Thêm ngày Phụ nữ – chúc vừa đủ vui 😘
+
+🎁 Niềm vui cứ đến ngập tràn,
+Áo hoa rực rỡ, môi son rạng ngời 💋
+Chúc bạn trẻ mãi – yêu đời,
+Tươi như hoa nở – xinh tươi suốt đời 🌼`
+];
+
+    function openLetter() {
+      const env = document.getElementById("envelope");
+      const text = document.getElementById("text");
+      env.classList.add("open");
+
+      const name = localStorage.getItem("receiverName") || "bạn";
+      const msg = `${name} thân mến,\n\n${messages[Math.floor(Math.random() * messages.length)]}\n\n💌 Chúc bạn 20/10 thật đáng yêu và tràn ngập yêu thương! 💕\n\nKý tên: Người gửi bí mật 💞`;
+      text.textContent = msg;
+
+      setTimeout(() => text.classList.add("showText"), 1000);
+      document.getElementById("next").style.display = "block";
+    }
+
+    // 👉 Hàm chuyển trang có hiệu ứng mờ dần
+    function nextPage() {
+      document.body.style.transition = "all 1.2s ease";
+      document.body.style.opacity = "0";
+      document.body.style.transform = "translateY(-50px)";
+      setTimeout(() => window.location.href = "flower_w_heart.html", 1200);
+    }
+
+    // Hiệu ứng hoa rơi
+    const flowers = ["🌸","🌷","🌺","💮","🌼"];
+    setInterval(() => {
+      const f = document.createElement("div");
+      f.className = "flower";
+      f.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+      f.style.left = Math.random() * 100 + "vw";
+      f.style.animationDuration = 3 + Math.random() * 5 + "s";
+      document.body.appendChild(f);
+      setTimeout(() => f.remove(), 8000);
+    }, 400);
+  </script>
+</body>
+</html>
