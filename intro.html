@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chúc mừng 20/10 💐</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(180deg, #f3e5f5, #e1bee7); /* tím nhạt → tím dịu */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    h1 {
+      color: #6a1b9a; /* tím đậm */
+      font-size: 2.8em;
+      text-align: center;
+      text-shadow: 0 0 15px #ce93d8; /* glow tím nhạt */
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #ce93d8; }
+      to { text-shadow: 0 0 20px #ab47bc, 0 0 30px #ba68c8; } /* glow tím sáng */
+    }
+
+    button {
+      margin-top: 25px;
+      background: linear-gradient(180deg, #e1bee7, #ba68c8); /* gradient tím dịu → tím vừa */
+      color: white;
+      font-size: 1.2em;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 10px rgba(106, 27, 154, 0.4);
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      background: #ab47bc; /* tím sáng khi hover */
+    }
+
+    .flower {
+      position: fixed;
+      top: -10px;
+      color: #ce93d8; /* hoa rơi tím nhạt */
+      animation: fall linear forwards;
+      z-index: 999;
+      font-size: 20px;
+      opacity: 0.8;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+
+</head>
+<body>
+  <h1 id="greeting"></h1>
+  <button onclick="gotoLetter()">💌 Nhận thư</button>
+
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2023/01/23/audio_c2bbf8ce10.mp3?filename=happy-inspirational-background-music-134441.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+    // Lấy tên từ localStorage
+    const name = localStorage.getItem("receiverName") || "bạn";
+    document.getElementById("greeting").textContent = `🌸 Chúc ${name} có một ngày 20/10 thật rực rỡ và ý nghĩa! 🌸`;
+
+    function gotoLetter() {
+      window.location.href = "letter.html";
+    }
+
+    // Hoa rơi
+    const flowers = ["🌸","💮","🌺","🌷","🌹","🌼"];
+    setInterval(() => {
+      const f = document.createElement("div");
+      f.className = "flower";
+      f.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+      f.style.left = Math.random() * 100 + "vw";
+      f.style.animationDuration = 3 + Math.random() * 5 + "s";
+      document.body.appendChild(f);
+      setTimeout(() => f.remove(), 8000);
+    }, 300);
+  </script>
+</body>
+</html>
